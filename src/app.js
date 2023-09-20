@@ -1,18 +1,21 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const userRouter = require("./routes/users");
-const cors = require('cors')
-const mongoose = require('mongoose')
+const cors = require("cors");
+const mongoose = require("mongoose");
 const loggerOne = require("./middlewares/loggerOne");
 const bodyParser = require("body-parser");
 
+//  объект, который будет представлять приложение
+const app = express();
+
 dotenv.config();
 
-mongoose.connect('mongodb://localhost:27017/mydb', err => {
-    if(err) throw err;
-    console.log('Connected to MongoDB');
+mongoose.connect("mongodb://localhost:27017/backendpr", (err) => {
+  if (err) throw err;
+  console.log("Connected to MongoDB");
 });
-const app = express();
+
 
 const { PORT = 3000, API_URL = "http://127.0.0.1" } = process.env;
 
@@ -24,7 +27,7 @@ const helloWorld = (request, response) => {
 app.use(loggerOne);
 // middleware для получения списка users
 app.use(bodyParser.json());
-app.use(cors)
+app.use(cors);
 
 app.get("/", helloWorld);
 
